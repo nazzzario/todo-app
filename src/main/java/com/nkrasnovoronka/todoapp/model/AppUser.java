@@ -1,11 +1,13 @@
 package com.nkrasnovoronka.todoapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +46,8 @@ public class AppUser {
 
   private String email;
 
-  @ManyToMany
+  @JsonManagedReference
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_roles",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})

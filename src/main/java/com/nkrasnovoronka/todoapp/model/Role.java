@@ -1,10 +1,12 @@
 package com.nkrasnovoronka.todoapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +34,11 @@ public class Role implements GrantedAuthority {
   @Column(name = "role_name")
   private String roleName;
 
+  @JsonBackReference
   @ManyToMany(mappedBy = "roles")
   @ToString.Exclude
   private List<AppUser> appUserList = new ArrayList<>();
+
 
   @Override
   public boolean equals(Object o) {
