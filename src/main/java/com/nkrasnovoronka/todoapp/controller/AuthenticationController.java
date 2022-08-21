@@ -47,8 +47,8 @@ public class AuthenticationController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<String> logout(@RequestBody Long user_id) {
-    refreshTokenService.deleteByUserId(user_id);
+  public ResponseEntity<String> logout(@RequestBody Long userId) {
+    refreshTokenService.deleteByUserId(userId);
     return ResponseEntity.ok().body("Logout successful");
   }
 
