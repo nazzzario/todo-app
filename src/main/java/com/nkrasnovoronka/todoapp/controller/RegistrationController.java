@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/v1/registration")
+@RequestMapping("api/v1/")
 @RequiredArgsConstructor
 @Slf4j
 public class RegistrationController {
 
   private final UserService userService;
 
-  @PostMapping
+  @PostMapping("/registration")
   public ResponseEntity<ResponseUser> userRegistration(@RequestBody RequestUser user) {
     ResponseUser responseUser = userService.saveUser(user);
     return ResponseEntity.ok(responseUser);

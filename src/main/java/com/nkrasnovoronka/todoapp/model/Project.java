@@ -1,9 +1,11 @@
 package com.nkrasnovoronka.todoapp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,11 +37,13 @@ public class Project {
   @Column(name = "project_name")
   private String projectName;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "owner_id", nullable = false)
   @ToString.Exclude
   private AppUser owner;
 
+  @JsonBackReference
   @ManyToMany(mappedBy = "userProjects")
   @ToString.Exclude
   private List<AppUser> projectUsers = new ArrayList<>();

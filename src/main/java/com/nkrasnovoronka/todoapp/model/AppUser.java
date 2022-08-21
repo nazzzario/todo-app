@@ -54,6 +54,7 @@ public class AppUser {
   @ToString.Exclude
   private List<Role> roles = new ArrayList<>();
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "owner")
   @ToString.Exclude
   private List<Project> projects = new ArrayList<>();
