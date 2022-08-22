@@ -1,5 +1,8 @@
 package com.nkrasnovoronka.todoapp.security.jwt;
 
+import com.nkrasnovoronka.todoapp.dto.auth.JwtResponse;
+import com.nkrasnovoronka.todoapp.model.RefreshToken;
+import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,6 +13,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -75,5 +79,12 @@ public class JwtUtils {
       return authHeader.substring(7);
     }
     return null;
+  }
+
+  public JwtResponse buildJwtResponse(AppUserDetailsImpl userDetails, RefreshToken refreshToken) {
+    var roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+
+    return new JwtResponse(generateJwtToken(userDetails), refreshToken.getToken(), userDetails.getId(),
+        userDetails.getUsername(), roles);
   }
 }

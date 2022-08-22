@@ -1,9 +1,8 @@
 package com.nkrasnovoronka.todoapp.dto.auth;
 
-import java.util.Collection;
+import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 
 @Data
@@ -14,5 +13,5 @@ public class JwtResponse {
   private final String refreshToken;
   private final Long id;
   private final String email;
-  private final Collection<? extends GrantedAuthority> roles;
+  private final List<String> roles;
 }

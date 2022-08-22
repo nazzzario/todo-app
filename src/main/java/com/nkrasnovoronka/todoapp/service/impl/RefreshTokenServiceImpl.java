@@ -1,16 +1,19 @@
 package com.nkrasnovoronka.todoapp.service.impl;
 
+import com.nkrasnovoronka.todoapp.dto.auth.RefreshTokenResponse;
 import com.nkrasnovoronka.todoapp.exception.RefreshTokenException;
 import com.nkrasnovoronka.todoapp.model.AppUser;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import com.nkrasnovoronka.todoapp.repo.RefreshTokenRepository;
 import com.nkrasnovoronka.todoapp.repo.UserRepository;
+import com.nkrasnovoronka.todoapp.security.jwt.JwtUtils;
 import com.nkrasnovoronka.todoapp.service.RefreshTokenService;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
   private final RefreshTokenRepository refreshTokenRepository;
 
   private final UserRepository userRepository;
+
+  private final JwtUtils jwtUtils;
 
   @Override
   @Transactional
@@ -57,5 +62,17 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
   @Override
   public Optional<RefreshToken> findByToken(String token) {
     return refreshTokenRepository.findByToken(token);
+  }
+
+  public RefreshTokenResponse getRefreshTokenResponse(String refreshToken) {
+    return findByToken(refreshToken)
+        .map(this::verifyExpiration)
+        .map(RefreshToken::getUser)
+        .map(user -> {
+          String token = jwtUtils.generateTokenFromEmail(user.getEmail());
+          return new RefreshTokenResponse(token, refreshToken);
+        })
+        .orElseThrow(() -> new RefreshTokenException(refreshToken,
+            "Refresh token is not in database!"));
   }
 }

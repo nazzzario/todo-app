@@ -22,7 +22,7 @@ public class ProjectController {
   private final ProjectService projectService;
 
   @PostMapping("/create")
-  public ResponseEntity<?> createProject(Authentication authentication, @RequestBody RequestProject requestProject){
+  public ResponseEntity<ResponseProject> createProject(Authentication authentication, @RequestBody RequestProject requestProject){
     var userDetails = (AppUserDetailsImpl) authentication.getPrincipal();
     ResponseProject responseProject = projectService.createProject(requestProject, userDetails.getId());
     return ResponseEntity.ok(responseProject);
