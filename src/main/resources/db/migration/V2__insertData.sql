@@ -21,7 +21,7 @@ insert into user_projects(project_id, user_id)
 values (1, 2);
 
 insert into todos (title, description, status, finish_date, project_id, creator_id)
-values ('Test todo', 'i`m test todo', 'NO_STATUS_FOR_NOW', '2023-01-08', 1, 1);
+values ('Test todo', 'i`m test todo', 'CREATED', '2023-01-08', 1, 1);
 
 insert into todo_coloborants(todo_id, user_id)
 values (1, 2);
