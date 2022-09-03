@@ -2,12 +2,15 @@ package com.nkrasnovoronka.todoapp.service.impl;
 
 import com.nkrasnovoronka.todoapp.dto.project.RequestProject;
 import com.nkrasnovoronka.todoapp.dto.project.ResponseProject;
+import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.exception.ProjectNotFoundException;
 import com.nkrasnovoronka.todoapp.mapper.ProjectMapper;
+import com.nkrasnovoronka.todoapp.mapper.UserMapper;
 import com.nkrasnovoronka.todoapp.model.Project;
 import com.nkrasnovoronka.todoapp.repo.ProjectRepository;
 import com.nkrasnovoronka.todoapp.repo.UserRepository;
 import com.nkrasnovoronka.todoapp.service.ProjectService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,9 @@ public class ProjectServiceImpl implements ProjectService {
 
   private final ProjectRepository projectRepository;
   private final UserRepository userRepository;
-
   private final ProjectMapper projectMapper;
+
+  private final UserMapper userMapper;
 
   @Override
   public ResponseProject createProject(RequestProject requestProject, Long id) {
@@ -39,5 +43,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     user.getUserProjects().add(project);
     userRepository.save(user);
+  }
+
+  @Override
+  public void deleteProjectById(Long projectId) {
+    projectRepository.deleteById(projectId);
+  }
+
+  @Override
+  public List<ResponseUser> getAllProjectUsers(Long projectId) {
+    return userRepository.findAllByProjectId(projectId).stream()
+        .map(userMapper::toDto)
+        .toList();
   }
 }

@@ -3,10 +3,11 @@ package com.nkrasnovoronka.todoapp.mapper;
 import com.nkrasnovoronka.todoapp.dto.user.RequestUser;
 import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.model.AppUser;
+import com.nkrasnovoronka.todoapp.model.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {Role.class})
 public interface UserMapper {
 
   @Mapping(target = "userTodos", ignore = true)
@@ -22,5 +23,6 @@ public interface UserMapper {
   @Mapping(target = "email", source = "email")
   AppUser toEntity(RequestUser user);
 
+  @Mapping(target = "roles", expression = "java(appUser.getRoles().stream().map(com.nkrasnovoronka.todoapp.model.Role::getRoleName).toList())")
   ResponseUser toDto(AppUser appUser);
 }
