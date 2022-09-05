@@ -39,8 +39,9 @@ public class Todo {
 
   private String description;
 
+  @Column(name = "todo_status")
   @Enumerated(EnumType.STRING)
-  private Status status;
+  private TodoStatus todoStatus;
 
   @Column(name = "finish_date")
   private LocalDateTime finishedAt;

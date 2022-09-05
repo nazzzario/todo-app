@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +24,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "users")
@@ -45,6 +46,13 @@ public class AppUser {
   private String password;
 
   private String email;
+
+  @Column(name = "activation_code")
+  private String activationCode;
+
+  @Column(name = "user_status")
+  @Enumerated(EnumType.STRING)
+  private UserStatus userStatus;
 
   @JsonManagedReference
   @ManyToMany(fetch = FetchType.EAGER)
@@ -80,6 +88,7 @@ public class AppUser {
   @PrePersist
   private void setCreatedAt() {
     createdAt = LocalDateTime.now();
+    userStatus = UserStatus.NOT_ACTIVATED;
   }
 
   @PreUpdate
@@ -90,13 +99,12 @@ public class AppUser {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    AppUser appUser = (AppUser) o;
-    return id != null && Objects.equals(id, appUser.id);
+    if (!(o instanceof AppUser appUser)) return false;
+    return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(password, appUser.password) && Objects.equals(email, appUser.email) && Objects.equals(userStatus, appUser.userStatus) && Objects.equals(roles, appUser.roles) && Objects.equals(projects, appUser.projects) && Objects.equals(userProjects, appUser.userProjects) && Objects.equals(userTodos, appUser.userTodos) && Objects.equals(createdAt, appUser.createdAt) && Objects.equals(updatedAt, appUser.updatedAt);
   }
 
   @Override
   public int hashCode() {
-    return getClass().hashCode();
+    return Objects.hash(id, firstName, lastName, password, email, userStatus, roles, projects, userProjects, userTodos, createdAt, updatedAt);
   }
 }

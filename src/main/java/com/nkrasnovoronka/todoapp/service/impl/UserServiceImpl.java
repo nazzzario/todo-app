@@ -10,6 +10,7 @@ import com.nkrasnovoronka.todoapp.repo.UserRepository;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import com.nkrasnovoronka.todoapp.service.UserService;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
     AppUser appUser = userMapper.toEntity(user);
     appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
     appUser.getRoles().add(roleUser);
+    appUser.setActivationCode(UUID.randomUUID().toString());
     log.info("Saving new user {}", appUser.getEmail());
     AppUser save = userRepository.save(appUser);
     log.info("User with email {} successfully saved", save.getEmail());

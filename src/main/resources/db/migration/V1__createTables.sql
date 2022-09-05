@@ -7,8 +7,10 @@ create table if not exists users
     last_name  varchar(50) not null,
     password   varchar(255) not null,
     email      varchar(255) not null,
+    user_status varchar(255) not null,
     created_at timestamp default now(),
-    updated_at timestamp
+    updated_at timestamp,
+    activation_code varchar(255)
 );
 
 create unique index if not exists users_email_uindex
@@ -68,7 +70,7 @@ create table if not exists todos
     id          bigserial,
     title       varchar(50)  not null,
     description varchar(500),
-    status      varchar(255) not null,
+    todo_status     varchar(255) not null,
     finish_date timestamp,
     project_id  bigint
         constraint todos_projects_id_fk

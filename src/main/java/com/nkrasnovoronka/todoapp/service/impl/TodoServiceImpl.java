@@ -5,7 +5,7 @@ import com.nkrasnovoronka.todoapp.dto.todo.ResponseTodo;
 import com.nkrasnovoronka.todoapp.exception.ProjectNotFoundException;
 import com.nkrasnovoronka.todoapp.exception.TodoAppException;
 import com.nkrasnovoronka.todoapp.mapper.TodoMapper;
-import com.nkrasnovoronka.todoapp.model.Status;
+import com.nkrasnovoronka.todoapp.model.TodoStatus;
 import com.nkrasnovoronka.todoapp.model.Todo;
 import com.nkrasnovoronka.todoapp.repo.ProjectRepository;
 import com.nkrasnovoronka.todoapp.repo.TodoRepository;
@@ -40,7 +40,7 @@ public class TodoServiceImpl implements TodoService {
     var userById = userRepository.findById(creatorId)
         .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with id " + creatorId));
 
-    todo.setStatus(Status.CREATED);
+    todo.setTodoStatus(TodoStatus.CREATED);
     todo.setCreator(userById);
     todo.setProject(projectById);
 
@@ -74,7 +74,7 @@ public class TodoServiceImpl implements TodoService {
     var todoFromDb = todoRepository.findById(todoId).orElseThrow(() -> new TodoAppException("Cannot find todo with id" + todoId));
     Optional.ofNullable(requestTodo.title()).ifPresent(todoFromDb::setTitle);
     Optional.ofNullable(requestTodo.description()).ifPresent(todoFromDb::setDescription);
-    Optional.ofNullable(requestTodo.status()).ifPresent(todoFromDb::setStatus);
+    Optional.ofNullable(requestTodo.todoStatus()).ifPresent(todoFromDb::setTodoStatus);
     Optional.ofNullable(requestTodo.finishedAt()).ifPresent(todoFromDb::setFinishedAt);
     var savedTodo = todoRepository.save(todoFromDb);
     return todoMapper.toResponse(savedTodo);
