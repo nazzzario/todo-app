@@ -4,6 +4,7 @@ import com.nkrasnovoronka.todoapp.dto.project.RequestProject;
 import com.nkrasnovoronka.todoapp.dto.project.ResponseProject;
 import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.exception.ProjectNotFoundException;
+import com.nkrasnovoronka.todoapp.exception.TodoAppException;
 import com.nkrasnovoronka.todoapp.mapper.ProjectMapper;
 import com.nkrasnovoronka.todoapp.mapper.UserMapper;
 import com.nkrasnovoronka.todoapp.model.Project;
@@ -11,6 +12,7 @@ import com.nkrasnovoronka.todoapp.repo.ProjectRepository;
 import com.nkrasnovoronka.todoapp.repo.UserRepository;
 import com.nkrasnovoronka.todoapp.service.ProjectService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -55,5 +57,14 @@ public class ProjectServiceImpl implements ProjectService {
     return userRepository.findAllByProjectId(projectId).stream()
         .map(userMapper::toDto)
         .toList();
+  }
+
+  @Override
+  public ResponseProject updateProject(Long projectId, RequestProject requestProject) {
+    var projectFromDb = projectRepository.findById(projectId)
+        .orElseThrow(() -> new TodoAppException("Cannot find project with id " + projectId));
+    Optional.ofNullable(requestProject.projectName()).ifPresent(projectFromDb::setProjectName);
+    var updatedProject = projectRepository.save(projectFromDb);
+    return projectMapper.toDto(updatedProject);
   }
 }
