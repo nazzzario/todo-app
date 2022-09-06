@@ -22,7 +22,7 @@ public class RegistrationController {
 
   @PostMapping("/registration")
   public ResponseEntity<ResponseUser> userRegistration(@RequestBody RequestUser user) {
-    ResponseUser responseUser = userService.saveUser(user);
+    ResponseUser responseUser = userService.registerUser(user);
     return ResponseEntity.ok(responseUser);
   }
 }

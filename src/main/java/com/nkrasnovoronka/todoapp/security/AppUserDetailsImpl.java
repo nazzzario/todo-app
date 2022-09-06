@@ -2,6 +2,7 @@ package com.nkrasnovoronka.todoapp.security;
 
 import com.nkrasnovoronka.todoapp.model.AppUser;
 import com.nkrasnovoronka.todoapp.model.Role;
+import com.nkrasnovoronka.todoapp.model.UserStatus;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -16,12 +17,14 @@ public class AppUserDetailsImpl implements UserDetails {
   private Long id;
   private String email;
   private String password;
+  private Boolean isEnabled;
   private List<Role> roles;
 
   public static AppUserDetailsImpl build(AppUser appUser) {
     return new AppUserDetailsImpl(appUser.getId(),
                                   appUser.getEmail(),
                                   appUser.getPassword(),
+                                  appUser.getUserStatus().equals(UserStatus.ACTIVATED),
                                   appUser.getRoles());
   }
   public Long getId() {
@@ -60,7 +63,7 @@ public class AppUserDetailsImpl implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return isEnabled;
   }
 
   @Override

@@ -5,9 +5,11 @@ import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.mapper.UserMapper;
 import com.nkrasnovoronka.todoapp.model.AppUser;
 import com.nkrasnovoronka.todoapp.model.Role;
+import com.nkrasnovoronka.todoapp.model.UserStatus;
 import com.nkrasnovoronka.todoapp.repo.RoleRepository;
 import com.nkrasnovoronka.todoapp.repo.UserRepository;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
+import com.nkrasnovoronka.todoapp.service.MailService;
 import com.nkrasnovoronka.todoapp.service.UserService;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
+  private final MailService mailService;
   private final UserMapper userMapper;
 
   @Override
@@ -40,16 +43,17 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ResponseUser saveUser(RequestUser user) {
+  public ResponseUser registerUser(RequestUser user) {
     Role roleUser = roleRepository.findRoleByRoleName("ROLE_USER");
     AppUser appUser = userMapper.toEntity(user);
     appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
     appUser.getRoles().add(roleUser);
     appUser.setActivationCode(UUID.randomUUID().toString());
     log.info("Saving new user {}", appUser.getEmail());
-    AppUser save = userRepository.save(appUser);
-    log.info("User with email {} successfully saved", save.getEmail());
-    return userMapper.toDto(save);
+    AppUser registeredUser = userRepository.save(appUser);
+    log.info("User with email {} successfully saved", registeredUser.getEmail());
+    mailService.sendVerificationCodeToUser(registeredUser);
+    return userMapper.toDto(registeredUser);
   }
 
   @Override
@@ -57,5 +61,17 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll().stream()
         .map(userMapper::toDto)
         .toList();
+  }
+
+  @Override
+  public String verificationUserById(Long userId, String verificationCode) {
+    var userFromDb = userRepository.findById(userId)
+        .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with id " + userId));
+    if (userFromDb.getActivationCode().equals(verificationCode)) {
+      userFromDb.setUserStatus(UserStatus.ACTIVATED);
+      userRepository.save(userFromDb);
+      return "user activated successfully";
+    }
+    return "wrong activation code";
   }
 }

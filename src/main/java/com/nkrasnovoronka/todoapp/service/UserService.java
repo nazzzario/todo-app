@@ -7,7 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-  ResponseUser saveUser(RequestUser user);
+  ResponseUser registerUser(RequestUser user);
 
   List<ResponseUser> getAllUsers();
+
+  String verificationUserById(Long userId, String verificationCode);
 }
