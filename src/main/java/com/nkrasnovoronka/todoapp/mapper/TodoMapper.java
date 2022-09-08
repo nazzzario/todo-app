@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {ProjectService.class, UserService.class})
 public interface TodoMapper{
 
-  @Mapping(target = "status", ignore = true)
+  @Mapping(target = "todoStatus",ignore = true)
   @Mapping(target = "project", ignore = true)
   @Mapping(target = "creator", ignore = true)
   @Mapping(target = "title", source = "title")

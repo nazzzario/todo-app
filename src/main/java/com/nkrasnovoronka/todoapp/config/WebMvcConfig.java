@@ -26,8 +26,7 @@ public class WebMvcConfig {
     httpSecurity.cors().and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-        .authorizeRequests().antMatchers("/**").permitAll()
-    ;
+        .authorizeRequests().antMatchers("/**").permitAll();
 
     httpSecurity.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return httpSecurity.build();

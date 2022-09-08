@@ -15,9 +15,11 @@ public class MailServiceImpl implements MailService {
 
   public void sendVerificationCodeToUser(AppUser user){
     var message = new SimpleMailMessage();
-    message.setFrom("todoapp@emai.com");
+    message.setFrom("todoapp@email.com");
+    message.setTo(user.getEmail());
     message.setSubject("ToDo application verification");
-    var verLing = "https://localhost:8080/%s/activate/%s";
+    var verLing = "https://localhost:8080/api/v1/users/%s/activate/%s";
     message.setText(String.format(verLing, user.getId(), user.getActivationCode()));
+    javaMailSender.send(message);
   }
 }

@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", imports = {Role.class})
 public interface UserMapper {
 
+  @Mapping(target = "userStatus", ignore = true)
+  @Mapping(target = "activationCode", ignore = true)
   @Mapping(target = "userTodos", ignore = true)
   @Mapping(target = "userProjects", ignore = true)
   @Mapping(target = "updatedAt", ignore = true)
