@@ -25,8 +25,11 @@ public class WebMvcConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity.cors().and().csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeRequests().antMatchers("/**").permitAll();
+//        .and()
+//        .authorizeRequests()
+//        .antMatchers("api/v1/user/usr")
+//        .hasRole("USER")
+    ;
 
     httpSecurity.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     return httpSecurity.build();

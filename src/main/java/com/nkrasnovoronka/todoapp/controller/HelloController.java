@@ -17,7 +17,7 @@ public class HelloController {
   }
 
   @GetMapping("/usr")
-  @PreAuthorize("hasRole('ROLE_USER')")
+  @PreAuthorize("hasRole('USER')")
   public String user(){
     return "user";
   }
