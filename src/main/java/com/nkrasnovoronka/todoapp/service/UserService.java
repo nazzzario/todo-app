@@ -12,4 +12,6 @@ public interface UserService extends UserDetailsService {
   List<ResponseUser> getAllUsers();
 
   String verificationUserById(Long userId, String verificationCode);
+
+  ResponseUser getUserByEmail(String email);
 }

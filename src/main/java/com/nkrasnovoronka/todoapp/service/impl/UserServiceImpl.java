@@ -74,4 +74,11 @@ public class UserServiceImpl implements UserService {
     }
     return "wrong activation code";
   }
+
+  @Override
+  public ResponseUser getUserByEmail(String email) {
+    var userByEmail = userRepository.findByEmail(email)
+        .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with email " + email));
+    return userMapper.toDto(userByEmail);
+  }
 }
