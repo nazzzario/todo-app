@@ -15,4 +15,6 @@ public interface ProjectService {
   List<ResponseUser> getAllProjectUsers(Long projectId);
 
   ResponseProject updateProject(Long projectId, RequestProject requestProject);
+
+  void removeUserFromProject(Long projectId, Long userId);
 }

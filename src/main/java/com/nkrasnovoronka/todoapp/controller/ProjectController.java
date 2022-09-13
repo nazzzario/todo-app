@@ -45,7 +45,7 @@ public class ProjectController {
   }
 
   @PutMapping("/{projectId}/update")
-  public ResponseEntity<ResponseProject> updateProject(@PathVariable Long projectId, @RequestBody RequestProject requestProject){
+  public ResponseEntity<ResponseProject> updateProject(@PathVariable Long projectId, @RequestBody RequestProject requestProject) {
     var responseProject = projectService.updateProject(projectId, requestProject);
     return ResponseEntity.ok(responseProject);
   }
@@ -53,5 +53,10 @@ public class ProjectController {
   @GetMapping("/assign/{projectId}/{userId}")
   public void addUserToProject(@PathVariable Long projectId, @PathVariable Long userId) {
     projectService.addUserToProject(projectId, userId);
+  }
+
+  @GetMapping("/remove/{projectId}/{userId}")
+  public void removeUserFromProject(@PathVariable Long projectId, @PathVariable Long userId) {
+    projectService.removeUserFromProject(projectId, userId);
   }
 }

@@ -67,4 +67,18 @@ public class ProjectServiceImpl implements ProjectService {
     var updatedProject = projectRepository.save(projectFromDb);
     return projectMapper.toDto(updatedProject);
   }
+
+  @Override
+  public void removeUserFromProject(Long projectId, Long userId) {
+    var projectById = projectRepository.findById(projectId)
+        .orElseThrow(() -> new ProjectNotFoundException(projectId));
+    var userById = userRepository.findById(userId)
+        .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with id " + userId));
+
+    projectById.getProjectUsers().remove(userById);
+    userById.getProjects().remove(projectById);
+
+    projectRepository.save(projectById);
+    userRepository.save(userById);
+  }
 }
