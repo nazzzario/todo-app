@@ -34,13 +34,9 @@ public class AuthenticationController {
     Authentication authenticate = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
     SecurityContextHolder.getContext().setAuthentication(authenticate);
-
     var userDetails = (AppUserDetailsImpl) authenticate.getPrincipal();
-
     RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-
     JwtResponse jwtResponse = jwtUtils.buildJwtResponse(userDetails, refreshToken);
-
     return ResponseEntity.ok(jwtResponse);
 
   }

@@ -75,7 +75,7 @@ public class JwtUtils {
 
   public String getJwtFromHeader(HttpServletRequest req) {
     var authHeader = req.getHeader("Authorization");
-    if(StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")){
+    if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
       return authHeader.substring(7);
     }
     return null;
@@ -84,7 +84,7 @@ public class JwtUtils {
   public JwtResponse buildJwtResponse(AppUserDetailsImpl userDetails, RefreshToken refreshToken) {
     var roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-    return new JwtResponse(generateJwtToken(userDetails), refreshToken.getToken(), userDetails.getId(),
+    return new JwtResponse(userDetails.getId(), generateJwtToken(userDetails), refreshToken.getToken(),
         userDetails.getUsername(), roles);
   }
 }

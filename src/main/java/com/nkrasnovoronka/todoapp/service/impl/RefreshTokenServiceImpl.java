@@ -51,7 +51,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
   @Override
   public RefreshToken verifyExpiration(RefreshToken refreshToken) {
-    if (refreshToken.getExpiresAt().isAfter(Instant.now())) {
+    if (refreshToken.getExpiresAt().isBefore(Instant.now())) {
       refreshTokenRepository.deleteById(refreshToken.getId());
       throw new RefreshTokenException(refreshToken.getToken(), "Refresh token was expired, pleas create new sign in token");
     }
