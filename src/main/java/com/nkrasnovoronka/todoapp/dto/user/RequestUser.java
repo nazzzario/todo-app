@@ -1,6 +1,7 @@
 package com.nkrasnovoronka.todoapp.dto.user;
 
 import com.nkrasnovoronka.todoapp.anotations.PasswordValueMatch;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @PasswordValueMatch(field = "password",
@@ -16,6 +17,7 @@ public record RequestUser(
     String password,
 
     String confirmPassword,
+    @Email
     String email) {
 
 }
