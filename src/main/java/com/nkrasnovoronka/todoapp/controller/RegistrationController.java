@@ -4,6 +4,7 @@ package com.nkrasnovoronka.todoapp.controller;
 import com.nkrasnovoronka.todoapp.dto.user.RequestUser;
 import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.service.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class RegistrationController {
   private final UserService userService;
 
   @PostMapping("/registration")
-  public ResponseEntity<ResponseUser> userRegistration(@RequestBody RequestUser user) {
+  public ResponseEntity<ResponseUser> userRegistration(@RequestBody @Valid RequestUser user) {
     ResponseUser responseUser = userService.registerUser(user);
     return ResponseEntity.ok(responseUser);
   }
