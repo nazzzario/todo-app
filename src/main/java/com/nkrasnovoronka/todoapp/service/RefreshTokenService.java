@@ -1,6 +1,6 @@
 package com.nkrasnovoronka.todoapp.service;
 
-import com.nkrasnovoronka.todoapp.dto.auth.RefreshTokenResponse;
+import com.nkrasnovoronka.todoapp.dto.auth.ResponseRefreshToken;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import java.util.Optional;
 
@@ -13,5 +13,5 @@ public interface RefreshTokenService {
 
   Optional<RefreshToken> findByToken(String token);
 
-  RefreshTokenResponse getRefreshTokenResponse(String refreshToken);
+  ResponseRefreshToken getRefreshTokenResponse(String refreshToken);
 }

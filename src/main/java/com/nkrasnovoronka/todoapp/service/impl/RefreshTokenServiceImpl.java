@@ -1,6 +1,6 @@
 package com.nkrasnovoronka.todoapp.service.impl;
 
-import com.nkrasnovoronka.todoapp.dto.auth.RefreshTokenResponse;
+import com.nkrasnovoronka.todoapp.dto.auth.ResponseRefreshToken;
 import com.nkrasnovoronka.todoapp.exception.RefreshTokenException;
 import com.nkrasnovoronka.todoapp.model.AppUser;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
@@ -63,13 +63,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     return refreshTokenRepository.findByToken(token);
   }
 
-  public RefreshTokenResponse getRefreshTokenResponse(String refreshToken) {
+  public ResponseRefreshToken getRefreshTokenResponse(String refreshToken) {
     return findByToken(refreshToken)
         .map(this::verifyExpiration)
         .map(RefreshToken::getUser)
         .map(user -> {
           String token = jwtUtils.generateTokenFromEmail(user.getEmail());
-          return new RefreshTokenResponse(token, refreshToken);
+          return new ResponseRefreshToken(token, refreshToken);
         })
         .orElseThrow(() -> new RefreshTokenException(refreshToken,
             "Refresh token is not in database!"));

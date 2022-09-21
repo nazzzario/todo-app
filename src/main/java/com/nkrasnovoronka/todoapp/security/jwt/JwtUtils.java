@@ -1,6 +1,6 @@
 package com.nkrasnovoronka.todoapp.security.jwt;
 
-import com.nkrasnovoronka.todoapp.dto.auth.JwtResponse;
+import com.nkrasnovoronka.todoapp.dto.auth.ResponseJwt;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -81,10 +81,10 @@ public class JwtUtils {
     return null;
   }
 
-  public JwtResponse buildJwtResponse(AppUserDetailsImpl userDetails, RefreshToken refreshToken) {
+  public ResponseJwt buildJwtResponse(AppUserDetailsImpl userDetails, RefreshToken refreshToken) {
     var roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-    return new JwtResponse(userDetails.getId(), generateJwtToken(userDetails), refreshToken.getToken(),
+    return new ResponseJwt(userDetails.getId(), generateJwtToken(userDetails), refreshToken.getToken(),
         userDetails.getUsername(), roles);
   }
 }

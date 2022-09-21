@@ -1,14 +1,15 @@
 package com.nkrasnovoronka.todoapp.controller;
 
 
-import com.nkrasnovoronka.todoapp.dto.auth.JwtResponse;
-import com.nkrasnovoronka.todoapp.dto.auth.RefreshTokenRequest;
-import com.nkrasnovoronka.todoapp.dto.auth.RefreshTokenResponse;
-import com.nkrasnovoronka.todoapp.dto.user.AuthenticationRequest;
+import com.nkrasnovoronka.todoapp.dto.auth.ResponseJwt;
+import com.nkrasnovoronka.todoapp.dto.auth.RequestRefreshToken;
+import com.nkrasnovoronka.todoapp.dto.auth.ResponseRefreshToken;
+import com.nkrasnovoronka.todoapp.dto.user.RequestAuthentication;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import com.nkrasnovoronka.todoapp.security.jwt.JwtUtils;
 import com.nkrasnovoronka.todoapp.service.RefreshTokenService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,14 +31,14 @@ public class AuthenticationController {
   private final RefreshTokenService refreshTokenService;
 
   @PostMapping("/login")
-  public ResponseEntity<JwtResponse> login(@RequestBody AuthenticationRequest authRequest) {
+  public ResponseEntity<ResponseJwt> login(@Valid @RequestBody RequestAuthentication authRequest) {
     Authentication authenticate = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
     SecurityContextHolder.getContext().setAuthentication(authenticate);
     var userDetails = (AppUserDetailsImpl) authenticate.getPrincipal();
     RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-    JwtResponse jwtResponse = jwtUtils.buildJwtResponse(userDetails, refreshToken);
-    return ResponseEntity.ok(jwtResponse);
+    ResponseJwt responseJwt = jwtUtils.buildJwtResponse(userDetails, refreshToken);
+    return ResponseEntity.ok(responseJwt);
 
   }
 
@@ -48,8 +49,8 @@ public class AuthenticationController {
   }
 
   @PostMapping("/refresh")
-  public ResponseEntity<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-    String refreshToken = refreshTokenRequest.refreshToken();
+  public ResponseEntity<ResponseRefreshToken> refreshToken(@Valid @RequestBody RequestRefreshToken requestRefreshToken) {
+    String refreshToken = requestRefreshToken.refreshToken();
     return ResponseEntity.ok(refreshTokenService.getRefreshTokenResponse(refreshToken));
   }
 }
