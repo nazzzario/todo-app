@@ -37,7 +37,7 @@ public class WebMvcConfig {
   }
 
   @Bean
-  public AuthenticationTokenFilter authenticationTokenFilter(){
+  public AuthenticationTokenFilter authenticationTokenFilter() {
     return new AuthenticationTokenFilter();
   }
 
@@ -47,7 +47,7 @@ public class WebMvcConfig {
   }
 
   @Bean
-  public PasswordEncoder getPasswordEncoder(){
+  public PasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
 }

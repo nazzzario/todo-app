@@ -13,7 +13,7 @@ public class MailServiceImpl implements MailService {
 
   private final JavaMailSender javaMailSender;
 
-  public void sendVerificationCodeToUser(AppUser user){
+  public void sendVerificationCodeToUser(AppUser user) {
     var message = new SimpleMailMessage();
     message.setFrom("todoapp@email.com");
     message.setTo(user.getEmail());

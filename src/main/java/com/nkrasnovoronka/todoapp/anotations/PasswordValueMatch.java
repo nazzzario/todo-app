@@ -14,15 +14,15 @@ import javax.validation.Payload;
 public @interface PasswordValueMatch {
   String message() default "Fields values don't match!";
 
-  Class<?>[] groups() default { };
+  Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default { };
+  Class<? extends Payload>[] payload() default {};
 
   String field();
 
   String fieldMatch();
 
-  @Target({ ElementType.TYPE })
+  @Target({ElementType.TYPE})
   @Retention(RetentionPolicy.RUNTIME)
   @interface List {
     PasswordValueMatch[] value();

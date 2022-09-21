@@ -22,11 +22,12 @@ public class AppUserDetailsImpl implements UserDetails {
 
   public static AppUserDetailsImpl build(AppUser appUser) {
     return new AppUserDetailsImpl(appUser.getId(),
-                                  appUser.getEmail(),
-                                  appUser.getPassword(),
-                                  appUser.getUserStatus().equals(UserStatus.ACTIVATED),
-                                  appUser.getRoles());
+        appUser.getEmail(),
+        appUser.getPassword(),
+        appUser.getUserStatus().equals(UserStatus.ACTIVATED),
+        appUser.getRoles());
   }
+
   public Long getId() {
     return id;
   }

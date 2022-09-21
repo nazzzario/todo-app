@@ -18,13 +18,13 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping
-  public List<ResponseUser> getAllUsers(){
+  public List<ResponseUser> getAllUsers() {
     return userService.getAllUsers();
   }
 
   @GetMapping("/{userId}/activate/{verificationCode}")
   public ResponseEntity<String> verificationUser(@PathVariable Long userId,
-                                                 @PathVariable String verificationCode){
+                                                 @PathVariable String verificationCode) {
     var verificationStatus = userService.verificationUserById(userId, verificationCode);
     return ResponseEntity.ok(verificationStatus);
   }

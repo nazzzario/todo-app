@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nkrasnovoronka.todoapp.anotations.EnumNamePattern;
 import com.nkrasnovoronka.todoapp.model.TodoStatus;
 import java.time.LocalDateTime;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
