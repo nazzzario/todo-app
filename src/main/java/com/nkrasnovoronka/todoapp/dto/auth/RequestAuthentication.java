@@ -1,4 +1,4 @@
-package com.nkrasnovoronka.todoapp.dto.user;
+package com.nkrasnovoronka.todoapp.dto.auth;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

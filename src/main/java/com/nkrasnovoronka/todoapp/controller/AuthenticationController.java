@@ -1,10 +1,10 @@
 package com.nkrasnovoronka.todoapp.controller;
 
 
-import com.nkrasnovoronka.todoapp.dto.auth.RequestRefreshToken;
-import com.nkrasnovoronka.todoapp.dto.auth.ResponseJwt;
-import com.nkrasnovoronka.todoapp.dto.auth.ResponseRefreshToken;
-import com.nkrasnovoronka.todoapp.dto.user.RequestAuthentication;
+import com.nkrasnovoronka.todoapp.dto.jwt.RequestRefreshToken;
+import com.nkrasnovoronka.todoapp.dto.jwt.ResponseJwt;
+import com.nkrasnovoronka.todoapp.dto.jwt.ResponseRefreshToken;
+import com.nkrasnovoronka.todoapp.dto.auth.RequestAuthentication;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import com.nkrasnovoronka.todoapp.security.jwt.JwtUtils;

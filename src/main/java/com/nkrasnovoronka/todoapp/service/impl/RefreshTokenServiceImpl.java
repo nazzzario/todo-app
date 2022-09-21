@@ -1,6 +1,6 @@
 package com.nkrasnovoronka.todoapp.service.impl;
 
-import com.nkrasnovoronka.todoapp.dto.auth.ResponseRefreshToken;
+import com.nkrasnovoronka.todoapp.dto.jwt.ResponseRefreshToken;
 import com.nkrasnovoronka.todoapp.exception.RefreshTokenException;
 import com.nkrasnovoronka.todoapp.model.AppUser;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;

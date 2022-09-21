@@ -1,4 +1,4 @@
-package com.nkrasnovoronka.todoapp.dto.auth;
+package com.nkrasnovoronka.todoapp.dto.jwt;
 
 import javax.validation.constraints.NotBlank;
 

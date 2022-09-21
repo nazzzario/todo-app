@@ -1,6 +1,6 @@
 package com.nkrasnovoronka.todoapp.security.jwt;
 
-import com.nkrasnovoronka.todoapp.dto.auth.ResponseJwt;
+import com.nkrasnovoronka.todoapp.dto.jwt.ResponseJwt;
 import com.nkrasnovoronka.todoapp.model.RefreshToken;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
