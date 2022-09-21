@@ -15,11 +15,9 @@ public record RequestUser(
     String firstName,
     @Size(min = 2, max = 50, message = "invalid lastName length (between 2 and 50)")
     String lastName,
-
     @ValidPassword
     @NotBlank
     String password,
-
     @ValidPassword
     @NotBlank
     String confirmPassword,

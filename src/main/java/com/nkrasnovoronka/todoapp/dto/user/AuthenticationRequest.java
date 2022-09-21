@@ -1,4 +1,11 @@
 package com.nkrasnovoronka.todoapp.dto.user;
 
-public record AuthenticationRequest(String email, String password) {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+public record AuthenticationRequest(
+    @Email
+    String email,
+    @NotBlank
+    String password) {
 }

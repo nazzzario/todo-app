@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class TodoController {
   public ResponseEntity<ResponseTodo> createTodo(Authentication authentication,
                                                  @Parameter(description = "id of project where ToDo be created")
                                                  @PathVariable Long projectId,
-                                                 @RequestBody RequestTodo requestTodo) {
+                                                 @Valid @RequestBody RequestTodo requestTodo) {
     var authUser = (AppUserDetailsImpl) authentication.getPrincipal();
     var responseTodo = todoService.createTodo(requestTodo, projectId, authUser.getId());
     return ResponseEntity.ok(responseTodo);
@@ -55,7 +56,7 @@ public class TodoController {
   @PutMapping("{projectId}/update/{todoId}")
   public ResponseEntity<ResponseTodo> updateTodo(@PathVariable Long projectId,
                                                  @PathVariable Long todoId,
-                                                 @RequestBody RequestTodo requestTodo) {
+                                                 @Valid @RequestBody RequestTodo requestTodo) {
 
     ResponseTodo todo = todoService.updateTodo(todoId, requestTodo);
     return ResponseEntity.ok(todo);
