@@ -6,6 +6,7 @@ import com.nkrasnovoronka.todoapp.dto.user.ResponseUser;
 import com.nkrasnovoronka.todoapp.security.AppUserDetailsImpl;
 import com.nkrasnovoronka.todoapp.service.ProjectService;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,8 @@ public class ProjectController {
   private final ProjectService projectService;
 
   @PostMapping("/create")
-  public ResponseEntity<ResponseProject> createProject(Authentication authentication, @RequestBody RequestProject requestProject) {
+  public ResponseEntity<ResponseProject> createProject(Authentication authentication,
+                                                       @Valid @RequestBody RequestProject requestProject) {
     var userDetails = (AppUserDetailsImpl) authentication.getPrincipal();
     ResponseProject responseProject = projectService.createProject(requestProject, userDetails.getId());
     return ResponseEntity.ok(responseProject);
@@ -45,7 +47,8 @@ public class ProjectController {
   }
 
   @PutMapping("/{projectId}/update")
-  public ResponseEntity<ResponseProject> updateProject(@PathVariable Long projectId, @RequestBody RequestProject requestProject) {
+  public ResponseEntity<ResponseProject> updateProject(@PathVariable Long projectId,
+                                                       @Valid @RequestBody RequestProject requestProject) {
     var responseProject = projectService.updateProject(projectId, requestProject);
     return ResponseEntity.ok(responseProject);
   }

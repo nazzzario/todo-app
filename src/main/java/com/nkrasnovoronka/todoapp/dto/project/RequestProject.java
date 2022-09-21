@@ -1,5 +1,9 @@
 package com.nkrasnovoronka.todoapp.dto.project;
 
-public record RequestProject(String projectName) {
+import javax.validation.constraints.NotBlank;
+
+public record RequestProject(
+    @NotBlank
+    String projectName) {
 
 }
